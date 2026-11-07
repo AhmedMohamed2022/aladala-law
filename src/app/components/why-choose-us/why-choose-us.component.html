@@ -1,0 +1,32 @@
+<section #root id="why" class="why section">
+    <div class="container grid">
+        <div class="content">
+            <div class="head">
+                <span class="eyebrow head-item reveal">لماذا نحن</span>
+                <h2 class="title head-item reveal">
+                    أربع ركائز <span class="gold-text">تصنع الفارق</span>
+                </h2>
+            </div>
+
+            <ol class="timeline">
+                <!-- Track (faint) and fill (gold, scrubbed by scroll) -->
+                <span class="line-track" aria-hidden="true"></span>
+                <span class="line-fill" aria-hidden="true"></span>
+
+                @for (p of pillars; track p.num) {
+                <li class="item">
+                    <span class="node" aria-hidden="true"></span>
+                    <div class="item-body reveal">
+                        <span class="item-num" aria-hidden="true">{{ p.num }}</span>
+                        <h3>{{ p.title }}</h3>
+                        <p>{{ p.text }}</p>
+                    </div>
+                </li>
+                }
+            </ol>
+        </div>
+
+        <!-- Second column (left side in RTL) stays empty: the 3D scale lands here in Step 11 -->
+        <div class="spacer" aria-hidden="true"></div>
+    </div>
+</section>

@@ -1,0 +1,135 @@
+:host {
+  display: block;
+}
+
+.hero {
+  position: relative;
+  z-index: 1; /* above the fixed canvas (z-index: 0) */
+  min-height: 100vh;
+  min-height: 100svh; /* mobile browsers with collapsing toolbars */
+  display: flex;
+  align-items: center;
+  padding-block: 8rem 6rem;
+}
+
+/* Soft gradient so the text stays readable over the 3D scene */
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to left,
+    rgba(6, 11, 20, 0.88) 0%,
+    rgba(6, 11, 20, 0.55) 40%,
+    transparent 70%
+  );
+}
+
+.content {
+  position: relative;
+  max-width: 36rem;
+  /* RTL: the content block sits on the right automatically */
+}
+
+.headline {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(2.8rem, 6.4vw, 5.2rem);
+  line-height: 1.35;
+  margin-bottom: 1.75rem;
+}
+
+/* Mask for the line-reveal. Padding keeps Arabic ascenders/descenders from being clipped */
+.line {
+  display: block;
+  overflow: hidden;
+  padding-block: 0.12em;
+  margin-block: -0.12em;
+}
+.line-inner {
+  display: inline-block;
+}
+
+.lead {
+  margin-bottom: 2.5rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* ============ Scroll cue ============ */
+.scroll-cue {
+  position: absolute;
+  inset-inline-start: var(--gutter);
+  bottom: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  color: var(--ivory-dim);
+}
+.scroll-cue i {
+  position: relative;
+  display: block;
+  width: 1px;
+  height: 3.5rem;
+  background: var(--line);
+  overflow: hidden;
+}
+.scroll-cue i::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 40%;
+  background: var(--gold-400);
+  animation: cue 2.2s var(--ease-out) infinite;
+}
+@keyframes cue {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(260%);
+  }
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 900px) {
+  .hero {
+    align-items: flex-start; /* text on top, scale visible below */
+    padding-block: 7rem 4rem;
+  }
+  .hero::before {
+    background: linear-gradient(
+      to bottom,
+      rgba(6, 11, 20, 0.85) 0%,
+      rgba(6, 11, 20, 0.5) 50%,
+      transparent 75%
+    );
+  }
+  .content {
+    max-width: 100%;
+  }
+  .scroll-cue {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions .btn {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue i::after {
+    animation: none;
+  }
+}

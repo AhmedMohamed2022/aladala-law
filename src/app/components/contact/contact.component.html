@@ -1,0 +1,47 @@
+<section #root id="contact" class="contact">
+    <!-- Animated background -->
+    <div class="bg" aria-hidden="true">
+        <div class="orbs">
+            <i class="orb orb-1"></i>
+            <i class="orb orb-2"></i>
+            <i class="orb orb-3"></i>
+        </div>
+        <div class="ring-wrap">
+            <i class="ring r1"></i>
+            <i class="ring r2"></i>
+            <i class="ring r3"></i>
+        </div>
+    </div>
+
+    <div class="container inner">
+        <span class="eyebrow item reveal">ابدأ الآن</span>
+
+        <h2 class="title item reveal">
+            قضيتك تستحق <span class="gold-text">فريقًا يؤمن بها</span>
+        </h2>
+
+        <p class="lead item reveal">
+            احجز استشارتك الأولى اليوم، وتحدث إلى محامٍ متخصص يستمع لك بعناية،
+            ويضع أمامك الخطوات الأوضح لحماية حقوقك.
+        </p>
+
+        <div class="actions item reveal">
+            <a class="btn btn-gold big" [href]="'mailto:' + email">احجز استشارتك الآن</a>
+        </div>
+
+        <ul class="details item reveal">
+            <li>
+                <span class="label">اتصل بنا</span>
+                <a [href]="'tel:' + phone.replace(' ', '')" dir="ltr">{{ phone }}</a>
+            </li>
+            <li>
+                <span class="label">راسلنا</span>
+                <a [href]="'mailto:' + email" dir="ltr">{{ email }}</a>
+            </li>
+            <li>
+                <span class="label">ساعات العمل</span>
+                <span>السبت – الخميس، ٩ ص – ٦ م</span>
+            </li>
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,38 @@
+<section #root id="services" class="services section">
+    <div class="container">
+        <div class="head">
+            <span class="eyebrow head-item reveal">خدماتنا القانونية</span>
+            <h2 class="title head-item reveal">
+                حلول قانونية <span class="gold-text">متكاملة</span><br />
+                لكل احتياج
+            </h2>
+            <p class="lead head-item reveal">
+                نغطي أهم المجالات القانونية بفريق متخصص، ونصمم لكل عميل خطة تتناسب مع طبيعة قضيته وأهدافه.
+            </p>
+        </div>
+
+        <div class="cards">
+            @for (s of services; track s.num) {
+            <div class="card-wrap reveal">
+                <article class="card">
+                    <span class="num" aria-hidden="true">{{ s.num }}</span>
+
+                    <div class="icon" aria-hidden="true">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+                            stroke-linecap="round" stroke-linejoin="round">
+                            @for (d of s.icon; track d) {
+                            <path [attr.d]="d" />
+                            }
+                        </svg>
+                    </div>
+
+                    <h3>{{ s.title }}</h3>
+                    <p>{{ s.text }}</p>
+
+                    <span class="line" aria-hidden="true"></span>
+                </article>
+            </div>
+            }
+        </div>
+    </div>
+</section>

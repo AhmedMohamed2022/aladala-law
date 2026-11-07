@@ -1,0 +1,185 @@
+:host {
+  display: block;
+}
+
+.services {
+  position: relative;
+  z-index: 1; /* above the fixed canvas */
+}
+
+/* Dark scrim: dims the 3D scale behind the cards, with soft edges into neighbors */
+.services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(6, 11, 20, 0) 0%,
+    rgba(6, 11, 20, 0.78) 18%,
+    rgba(6, 11, 20, 0.78) 82%,
+    rgba(6, 11, 20, 0) 100%
+  );
+}
+
+.container {
+  position: relative;
+}
+
+.head {
+  max-width: 42rem;
+  margin-bottom: clamp(3rem, 6vw, 4.5rem);
+}
+.head .title {
+  margin-bottom: 1.5rem;
+}
+
+/* ============ Cards grid ============ */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+/* The wrapper handles the entrance; its perspective is for the inner tilt */
+.card-wrap {
+  perspective: 900px;
+}
+
+.card {
+  --mx: 50%;
+  --my: 50%;
+
+  position: relative;
+  height: 100%;
+  padding: 2rem 1.75rem 2.25rem;
+  border: 1px solid var(--line);
+  border-radius: 1.1rem;
+  background: rgba(16, 27, 46, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  will-change: transform;
+  transition:
+    border-color 0.5s var(--ease-out),
+    background 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+
+/* Gold spotlight that follows the cursor */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    380px circle at var(--mx) var(--my),
+    rgba(240, 216, 148, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out);
+  pointer-events: none;
+}
+
+.card:hover {
+  border-color: rgba(217, 182, 101, 0.55);
+  background: rgba(16, 27, 46, 0.7);
+  box-shadow:
+    0 30px 60px -25px rgba(0, 0, 0, 0.7),
+    0 0 40px -15px rgba(201, 162, 77, 0.35);
+}
+.card:hover::before {
+  opacity: 1;
+}
+
+/* Content layers */
+.num {
+  position: absolute;
+  inset-block-start: 1.25rem;
+  inset-inline-end: 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  color: rgba(201, 162, 77, 0.45);
+  transition: color 0.4s var(--ease-out);
+}
+.card:hover .num {
+  color: var(--gold-300);
+}
+
+.icon {
+  display: grid;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin-bottom: 1.75rem;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  color: var(--gold-400);
+  transition:
+    transform 0.5s var(--ease-out),
+    background 0.5s var(--ease-out),
+    color 0.5s var(--ease-out);
+  transform: translateZ(30px); /* floats above the card when it tilts */
+}
+.icon svg {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.card:hover .icon {
+  background: linear-gradient(120deg, var(--gold-300), var(--gold-600));
+  color: var(--navy-950);
+}
+
+.card h3 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  line-height: 1.5;
+  margin-bottom: 0.9rem;
+  color: var(--ivory);
+  transform: translateZ(20px);
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--ivory-dim);
+  transform: translateZ(10px);
+}
+
+/* Gold line that draws along the bottom on hover (from the right in RTL) */
+.line {
+  position: absolute;
+  inset-inline: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(to left, var(--gold-300), var(--gold-600));
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.6s var(--ease-out);
+}
+.card:hover .line {
+  transform: scaleX(1);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 1100px) {
+  .cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cards {
+    grid-template-columns: 1fr;
+  }
+  .card {
+    padding: 1.75rem 1.5rem 2rem;
+  }
+}
+
+/* Touch devices: no hover-only polish needed */
+@media (hover: none) {
+  .card::before {
+    display: none;
+  }
+}

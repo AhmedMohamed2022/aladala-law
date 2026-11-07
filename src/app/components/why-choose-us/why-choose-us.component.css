@@ -1,0 +1,171 @@
+:host {
+  display: block;
+}
+
+.why {
+  position: relative;
+  z-index: 1; /* above the fixed canvas */
+}
+
+/* Scrim on the content side (right in RTL), open on the left for the 3D scale */
+.why::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(6, 11, 20, 0) 0%,
+      rgba(6, 11, 20, 0.4) 15%,
+      rgba(6, 11, 20, 0.4) 85%,
+      rgba(6, 11, 20, 0) 100%
+    ),
+    linear-gradient(
+      to left,
+      rgba(6, 11, 20, 0.9) 0%,
+      rgba(6, 11, 20, 0.6) 50%,
+      transparent 80%
+    );
+}
+
+.grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+}
+
+/* In RTL the first column is on the right */
+.content {
+  grid-column: 1;
+}
+.spacer {
+  grid-column: 2;
+}
+
+.head {
+  margin-bottom: clamp(2.5rem, 5vw, 4rem);
+}
+
+/* ============ Timeline ============ */
+.timeline {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.5rem, 6vw, 4.5rem);
+}
+
+/* The line sits on the inline-start side (right in RTL) */
+.line-track,
+.line-fill {
+  position: absolute;
+  inset-block: 0.6rem 0.6rem;
+  inset-inline-start: 0.5rem;
+  width: 2px;
+  border-radius: 2px;
+}
+.line-track {
+  background: var(--line);
+}
+.line-fill {
+  background: linear-gradient(
+    to bottom,
+    var(--gold-300),
+    var(--gold-500) 60%,
+    var(--gold-600)
+  );
+  box-shadow: 0 0 14px rgba(201, 162, 77, 0.55);
+  transform-origin: top center;
+}
+/* Hidden until GSAP scrubs it (only when motion is allowed) */
+.js-motion .line-fill {
+  transform: scaleY(0);
+}
+
+/* ============ Items ============ */
+.item {
+  position: relative;
+  padding-inline-start: 3.25rem;
+}
+
+.node {
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.55rem;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background: var(--navy-950);
+  border: 2px solid var(--gold-500);
+  transition:
+    background 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out),
+    transform 0.5s var(--ease-out),
+    border-color 0.5s var(--ease-out);
+}
+
+.item-body h3 {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+  line-height: 1.4;
+  margin-bottom: 0.6rem;
+  color: var(--ivory);
+  transition: color 0.5s var(--ease-out);
+}
+.item-body p {
+  max-width: 34rem;
+  font-size: 1rem;
+  color: var(--ivory-dim);
+}
+.item-num {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--gold-500);
+}
+
+/* Active pillar: gold, glowing node */
+.item.active .node,
+html:not(.js-motion) .node {
+  background: var(--gold-400);
+  border-color: var(--gold-300);
+  box-shadow:
+    0 0 0 6px rgba(201, 162, 77, 0.15),
+    0 0 20px rgba(201, 162, 77, 0.7);
+  transform: scale(1.1);
+}
+.item.active h3 {
+  color: var(--gold-300);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .spacer {
+    display: none;
+  }
+
+  .why::before {
+    background: linear-gradient(
+      to bottom,
+      rgba(6, 11, 20, 0.55),
+      rgba(6, 11, 20, 0.88) 25%,
+      rgba(6, 11, 20, 0.88) 85%,
+      rgba(6, 11, 20, 0.3)
+    );
+  }
+}
+
+@media (max-width: 480px) {
+  .item {
+    padding-inline-start: 2.5rem;
+  }
+}

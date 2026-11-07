@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+main {
+  position: relative;
+  z-index: 1;
+}

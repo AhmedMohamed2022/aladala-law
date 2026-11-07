@@ -1,0 +1,235 @@
+:host {
+  display: block;
+}
+
+.contact {
+  position: relative;
+  z-index: 1; /* above the fixed canvas */
+  overflow: hidden;
+  padding-block: clamp(6rem, 14vw, 11rem);
+  text-align: center;
+  /* Solid background: hides the 3D canvas behind this section */
+  background:
+    radial-gradient(
+      ellipse at 50% 0%,
+      rgba(201, 162, 77, 0.1),
+      transparent 55%
+    ),
+    linear-gradient(
+      to bottom,
+      var(--navy-950),
+      var(--navy-900) 40%,
+      var(--navy-950)
+    );
+}
+
+/* Soft fade from the previous section */
+.contact::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 10rem;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(6, 11, 20, 0), var(--navy-950));
+  opacity: 0;
+}
+
+/* ============ Background animation ============ */
+.bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Parallax layer (GSAP moves this one) */
+.orbs {
+  position: absolute;
+  inset: -15% 0;
+}
+
+/* Orbs drift in CSS (transform only) */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(217, 182, 101, 0.5),
+    rgba(201, 162, 77, 0) 70%
+  );
+  filter: blur(30px);
+  will-change: transform;
+}
+.orb-1 {
+  width: 32rem;
+  height: 32rem;
+  top: 8%;
+  inset-inline-start: -8%;
+  opacity: 0.35;
+  animation: drift-a 16s ease-in-out infinite alternate;
+}
+.orb-2 {
+  width: 26rem;
+  height: 26rem;
+  bottom: 6%;
+  inset-inline-end: -6%;
+  opacity: 0.3;
+  animation: drift-b 19s ease-in-out infinite alternate;
+}
+.orb-3 {
+  width: 18rem;
+  height: 18rem;
+  top: 40%;
+  inset-inline-start: 42%;
+  opacity: 0.18;
+  animation: drift-c 13s ease-in-out infinite alternate;
+}
+
+@keyframes drift-a {
+  from {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  to {
+    transform: translate3d(14vw, 10vh, 0) scale(1.2);
+  }
+}
+@keyframes drift-b {
+  from {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  to {
+    transform: translate3d(-12vw, -12vh, 0) scale(0.9);
+  }
+}
+@keyframes drift-c {
+  from {
+    transform: translate3d(0, 0, 0) scale(0.9);
+  }
+  to {
+    transform: translate3d(-8vw, 8vh, 0) scale(1.25);
+  }
+}
+
+/* Expanding rings from the center (GSAP fades the wrapper in) */
+.ring-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.ring {
+  grid-area: 1 / 1;
+  width: min(80vw, 46rem);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 1px solid rgba(217, 182, 101, 0.5);
+  opacity: 0;
+  animation: ring 9s var(--ease-out) infinite;
+  will-change: transform, opacity;
+}
+.r2 {
+  animation-delay: 3s;
+}
+.r3 {
+  animation-delay: 6s;
+}
+
+@keyframes ring {
+  0% {
+    transform: scale(0.35);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+/* ============ Content ============ */
+.inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact .eyebrow::after {
+  content: "";
+  width: 2.5rem;
+  height: 1px;
+  background: linear-gradient(270deg, transparent, var(--gold-400));
+}
+
+.title {
+  max-width: 46rem;
+  font-size: clamp(2.4rem, 6vw, 4.6rem);
+  margin-bottom: 1.5rem;
+}
+.lead {
+  margin-bottom: 2.75rem;
+}
+
+.big {
+  padding: 1.15rem 3rem;
+  font-size: 1.1rem;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(3, auto);
+  gap: clamp(1.5rem, 5vw, 4.5rem);
+  margin-top: 4rem;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--line);
+}
+.details li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 1rem;
+}
+.details .label {
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  color: var(--gold-500);
+}
+.details a {
+  transition: color 0.3s var(--ease-out);
+}
+.details a:hover {
+  color: var(--gold-300);
+}
+
+/* ============ Responsive ============ */
+@media (max-width: 800px) {
+  .details {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .actions,
+  .actions .btn {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .ring {
+    animation: none;
+  }
+  .ring {
+    opacity: 0.2;
+  }
+  .ring.r2,
+  .ring.r3 {
+    display: none;
+  }
+}

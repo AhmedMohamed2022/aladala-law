@@ -1,0 +1,27 @@
+<footer class="footer">
+    <div class="container wrap">
+        <div class="brand">
+            <strong>العدالة</strong>
+            <small>للمحاماة والاستشارات</small>
+        </div>
+
+        <nav class="links" aria-label="روابط التذييل">
+            @for (link of links; track link.target) {
+            <a [href]="link.target" (click)="goTo($event, link.target)">{{ link.label }}</a>
+            }
+        </nav>
+
+        <button class="top" type="button" aria-label="العودة إلى الأعلى" (click)="goTo($event, '#hero')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 19V5" />
+                <path d="m5 12 7-7 7 7" />
+            </svg>
+        </button>
+    </div>
+
+    <div class="container legal">
+        <p>© {{ year }} مكتب العدالة للمحاماة. جميع الحقوق محفوظة.</p>
+        <p class="note">موقع تجريبي لعرض تقنيات الرسوم ثلاثية الأبعاد.</p>
+    </div>
+</footer>

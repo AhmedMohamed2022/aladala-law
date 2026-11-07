@@ -1,0 +1,25 @@
+<div class="scene" aria-hidden="true">
+    <canvas #canvas [class.hidden]="failed()"></canvas>
+
+    @if (failed()) {
+    <!-- Graceful fallback when WebGL is unavailable -->
+    <div class="fallback">
+        <svg viewBox="0 0 200 200" fill="none" stroke="url(#g)" stroke-width="2.5" stroke-linecap="round">
+            <defs>
+                <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0" stop-color="#f0d894" />
+                    <stop offset="1" stop-color="#a8832f" />
+                </linearGradient>
+            </defs>
+            <line x1="100" y1="30" x2="100" y2="165" />
+            <line x1="60" y1="170" x2="140" y2="170" />
+            <line x1="40" y1="55" x2="160" y2="55" />
+            <circle cx="100" cy="42" r="8" />
+            <path d="M40 55 L22 110 H58 Z" />
+            <path d="M160 55 L142 110 H178 Z" />
+            <path d="M18 110 Q40 135 62 110" />
+            <path d="M138 110 Q160 135 182 110" />
+        </svg>
+    </div>
+    }
+</div>

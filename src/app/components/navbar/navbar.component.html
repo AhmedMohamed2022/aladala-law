@@ -1,0 +1,48 @@
+<header #header class="header">
+    <div class="container bar">
+        <a class="brand" href="#" (click)="goTo($event, '#hero')" aria-label="مكتب العدالة للمحاماة">
+            <svg class="brand-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="24" y1="8" x2="24" y2="38" />
+                <line x1="14" y1="40" x2="34" y2="40" />
+                <line x1="8" y1="14" x2="40" y2="14" />
+                <path d="M8 14 L3 26 H13 Z" />
+                <path d="M40 14 L35 26 H45 Z" />
+            </svg>
+            <span class="brand-text">
+                <strong>العدالة</strong>
+                <small>للمحاماة والاستشارات</small>
+            </span>
+        </a>
+
+        <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+            @for (link of links; track link.target) {
+            <a [href]="link.target" (click)="goTo($event, link.target)">{{ link.label }}</a>
+            }
+        </nav>
+
+        <a class="btn btn-gold cta" href="#contact" (click)="goTo($event, '#contact')">احجز استشارتك</a>
+
+        <button class="burger" type="button" [class.open]="menuOpen()" [attr.aria-expanded]="menuOpen()"
+            aria-controls="mobile-menu" aria-label="القائمة" (click)="toggleMenu()">
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>
+
+<!-- Sibling of the header on purpose (see note above) -->
+<div id="mobile-menu" class="panel" [class.open]="menuOpen()" [attr.aria-hidden]="!menuOpen()">
+    <nav class="panel-nav" aria-label="قائمة الجوال">
+        @for (link of links; track link.target; let i = $index) {
+        <a [href]="link.target" [style.transition-delay]="menuOpen() ? 120 + i * 70 + 'ms' : '0ms'"
+            [attr.tabindex]="menuOpen() ? 0 : -1" (click)="goTo($event, link.target)">
+            <span class="num">0{{ i + 1 }}</span>
+            {{ link.label }}
+        </a>
+        }
+        <a class="btn btn-gold panel-cta" href="#contact"
+            [style.transition-delay]="menuOpen() ? 120 + links.length * 70 + 'ms' : '0ms'"
+            [attr.tabindex]="menuOpen() ? 0 : -1" (click)="goTo($event, '#contact')">احجز استشارتك</a>
+    </nav>
+</div>

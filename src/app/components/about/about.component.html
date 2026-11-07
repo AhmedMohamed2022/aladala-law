@@ -1,0 +1,40 @@
+<section #root id="about" class="about section">
+    <div class="container grid">
+        <!-- First grid column (right side in RTL) stays empty: the 3D scale lands here in Step 11 -->
+        <div class="spacer" aria-hidden="true"></div>
+
+        <div class="content">
+            <span class="eyebrow text-item reveal">من نحن</span>
+
+            <h2 class="title text-item reveal">
+                شريكك القانوني <span class="gold-text">الموثوق</span><br />
+                منذ أكثر من خمسة عشر عامًا
+            </h2>
+
+            <p class="lead text-item reveal">
+                نؤمن أن القانون ليس مجرد نصوص، بل التزام تجاه الناس. يجمع فريقنا بين الخبرة
+                العميقة والفهم الدقيق لتفاصيل كل قضية، لنقدّم تمثيلاً قانونيًا يحمي مصالحكم
+                ويمنحكم الطمأنينة في أدق اللحظات.
+            </p>
+
+            <p class="lead text-item reveal">
+                من عقود الشركات إلى النزاعات المعقدة، نعمل بشفافية وسرّية تامة، ونضع
+                هدف العميل في مقدمة كل خطوة نخطوها.
+            </p>
+
+            <div class="rule" aria-hidden="true"></div>
+
+            <ul class="stats">
+                @for (s of stats; track s.label) {
+                <li class="stat reveal">
+                    <strong>
+                        <span class="num" [attr.data-value]="s.value">{{ format(s.value) }}</span><span
+                            class="suffix">{{ s.suffix }}</span>
+                    </strong>
+                    <span class="label">{{ s.label }}</span>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+</section>
