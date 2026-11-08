@@ -1,17 +1,19 @@
+@let t = i18n.t();
+
 <footer class="footer">
     <div class="container wrap">
         <div class="brand">
-            <strong>العدالة</strong>
-            <small>للمحاماة والاستشارات</small>
+            <strong>{{ t.brand.name }}</strong>
+            <small>{{ t.brand.tagline }}</small>
         </div>
 
-        <nav class="links" aria-label="روابط التذييل">
+        <nav class="links" [attr.aria-label]="t.aria.footerNav">
             @for (link of links; track link.target) {
-            <a [href]="link.target" (click)="goTo($event, link.target)">{{ link.label }}</a>
+            <a [href]="link.target" (click)="goTo($event, link.target)">{{ t.nav[link.key] }}</a>
             }
         </nav>
 
-        <button class="top" type="button" aria-label="العودة إلى الأعلى" (click)="goTo($event, '#hero')">
+        <button class="top" type="button" [attr.aria-label]="t.aria.backToTop" (click)="goTo($event, '#hero')">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
                 stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 19V5" />
@@ -21,7 +23,7 @@
     </div>
 
     <div class="container legal">
-        <p>© {{ year }} مكتب العدالة للمحاماة. جميع الحقوق محفوظة.</p>
-        <p class="note">موقع تجريبي لعرض تقنيات الرسوم ثلاثية الأبعاد.</p>
+        <p>© {{ i18n.digits(year.toString()) }} {{ t.footer.rights }}</p>
+        <p class="note">{{ t.footer.note }}</p>
     </div>
 </footer>

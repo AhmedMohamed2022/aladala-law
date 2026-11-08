@@ -22,7 +22,7 @@
       rgba(6, 11, 20, 0) 100%
     ),
     linear-gradient(
-      to left,
+      to var(--inline-end),
       rgba(6, 11, 20, 0.9) 0%,
       rgba(6, 11, 20, 0.6) 50%,
       transparent 80%

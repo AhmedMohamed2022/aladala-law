@@ -3,6 +3,18 @@
 
 <head>
   <meta charset="utf-8">
+  <!-- Sets lang/dir from the saved preference BEFORE first paint (no RTL flash for English visitors).
+     The storage key must match STORAGE_KEY in language.service.ts -->
+  <script>
+    (function () {
+      try {
+        var l = localStorage.getItem('aladala.lang') === 'en' ? 'en' : 'ar';
+        var h = document.documentElement;
+        h.lang = l;
+        h.dir = l === 'ar' ? 'rtl' : 'ltr';
+      } catch (e) { /* storage blocked: keep the Arabic defaults */ }
+    })();
+  </script>
   <title>مكتب العدالة للمحاماة | نصنع الثقة.. وندافع عن الحقوق</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">

@@ -90,7 +90,7 @@
     transform: translate3d(0, 0, 0) scale(1);
   }
   to {
-    transform: translate3d(14vw, 10vh, 0) scale(1.2);
+    transform: translate3d(calc(14vw * var(--x-sign)), 10vh, 0) scale(1.2);
   }
 }
 @keyframes drift-b {
@@ -98,7 +98,7 @@
     transform: translate3d(0, 0, 0) scale(1.1);
   }
   to {
-    transform: translate3d(-12vw, -12vh, 0) scale(0.9);
+    transform: translate3d(calc(-12vw * var(--x-sign)), -12vh, 0) scale(0.9);
   }
 }
 @keyframes drift-c {
@@ -106,7 +106,7 @@
     transform: translate3d(0, 0, 0) scale(0.9);
   }
   to {
-    transform: translate3d(-8vw, 8vh, 0) scale(1.25);
+    transform: translate3d(calc(-8vw * var(--x-sign)), 8vh, 0) scale(1.25);
   }
 }
 
@@ -160,7 +160,11 @@
   content: "";
   width: 2.5rem;
   height: 1px;
-  background: linear-gradient(270deg, transparent, var(--gold-400));
+  background: linear-gradient(
+    to var(--inline-end),
+    transparent,
+    var(--gold-400)
+  );
 }
 
 .title {
@@ -194,7 +198,7 @@
 }
 .details .label {
   font-size: 0.8rem;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--tracking);
   color: var(--gold-500);
 }
 .details a {

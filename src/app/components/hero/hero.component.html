@@ -1,27 +1,28 @@
+@let t = i18n.t();
+
 <section #root id="hero" class="hero">
     <div class="container">
         <div class="content" data-hero-content>
-            <span class="eyebrow reveal">مكتب محاماة واستشارات قانونية</span>
+            <span class="eyebrow reveal">{{ t.hero.eyebrow }}</span>
 
             <h1 class="headline">
-                <span class="line"><span class="line-inner reveal">نصنع الثقة..</span></span>
-                <span class="line"><span class="line-inner reveal gold-text">وندافع عن الحقوق</span></span>
+                <span class="line"><span class="line-inner reveal">{{ t.hero.headline.line1 }}</span></span>
+                <span class="line"><span class="line-inner reveal gold-text">{{ t.hero.headline.line2 }}</span></span>
             </h1>
 
-            <p class="lead reveal">
-                نقدّم حلولاً قانونية استراتيجية للشركات والأفراد، بخبرة راسخة وسرّية تامة،
-                وبفهم عميق لتفاصيل كل قضية، لنحمي مصالحكم ونصون حقوقكم في كل مرحلة.
-            </p>
+            <p class="lead reveal">{{ t.hero.lead }}</p>
 
             <div class="actions">
-                <a class="btn btn-gold reveal" href="#contact" (click)="goTo($event, '#contact')">احجز استشارتك</a>
-                <a class="btn btn-ghost reveal" href="#services" (click)="goTo($event, '#services')">اكتشف خدماتنا</a>
+                <a class="btn btn-gold reveal" href="#contact" (click)="goTo($event, '#contact')">{{ t.hero.ctaPrimary
+                    }}</a>
+                <a class="btn btn-ghost reveal" href="#services" (click)="goTo($event, '#services')">{{
+                    t.hero.ctaSecondary }}</a>
             </div>
         </div>
     </div>
 
     <div class="scroll-cue" aria-hidden="true">
-        <span>اسحب للأسفل</span>
+        <span>{{ t.hero.scrollCue }}</span>
         <i></i>
     </div>
 </section>

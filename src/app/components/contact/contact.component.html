@@ -1,3 +1,5 @@
+@let t = i18n.t();
+
 <section #root id="contact" class="contact">
     <!-- Animated background -->
     <div class="bg" aria-hidden="true">
@@ -14,33 +16,29 @@
     </div>
 
     <div class="container inner">
-        <span class="eyebrow item reveal">ابدأ الآن</span>
+        <span class="eyebrow item reveal">{{ t.contact.eyebrow }}</span>
 
-        <h2 class="title item reveal">
-            قضيتك تستحق <span class="gold-text">فريقًا يؤمن بها</span>
-        </h2>
+        <h2 class="title item reveal">{{ t.contact.title.before }}<span class="gold-text">{{ t.contact.title.accent
+                }}</span>@if (t.contact.title.after) {<br />{{ t.contact.title.after }}}</h2>
 
-        <p class="lead item reveal">
-            احجز استشارتك الأولى اليوم، وتحدث إلى محامٍ متخصص يستمع لك بعناية،
-            ويضع أمامك الخطوات الأوضح لحماية حقوقك.
-        </p>
+        <p class="lead item reveal">{{ t.contact.lead }}</p>
 
         <div class="actions item reveal">
-            <a class="btn btn-gold big" [href]="'mailto:' + email">احجز استشارتك الآن</a>
+            <a class="btn btn-gold big" [href]="'mailto:' + email">{{ t.contact.cta }}</a>
         </div>
 
         <ul class="details item reveal">
             <li>
-                <span class="label">اتصل بنا</span>
-                <a [href]="'tel:' + phone.replace(' ', '')" dir="ltr">{{ phone }}</a>
+                <span class="label">{{ t.contact.labels.call }}</span>
+                <a [href]="phoneHref" dir="ltr">{{ phone }}</a>
             </li>
             <li>
-                <span class="label">راسلنا</span>
+                <span class="label">{{ t.contact.labels.email }}</span>
                 <a [href]="'mailto:' + email" dir="ltr">{{ email }}</a>
             </li>
             <li>
-                <span class="label">ساعات العمل</span>
-                <span>السبت – الخميس، ٩ ص – ٦ م</span>
+                <span class="label">{{ t.contact.labels.hours }}</span>
+                <span>{{ i18n.digits(t.contact.hours) }}</span>
             </li>
         </ul>
     </div>

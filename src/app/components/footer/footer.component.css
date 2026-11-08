@@ -30,7 +30,7 @@
 }
 .brand small {
   font-size: 0.75rem;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking);
   color: var(--gold-400);
 }
 

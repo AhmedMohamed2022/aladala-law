@@ -19,8 +19,27 @@ export type HeroPose = Pick<
   | 'glow'
 >;
 
-/** Where the scale rests in the hero, based on the current viewport. */
-export function heroPose(): HeroPose {
+/**
+ * Text direction. Structurally identical to `Dir` in LanguageService, but
+ * declared here so this file stays pure (no Angular imports).
+ */
+export type PoseDir = 'rtl' | 'ltr';
+
+/**
+ * +1 in RTL, -1 in LTR. Multiplies every physical X offset, so the whole
+ * composition mirrors with the reading direction.
+ */
+function inlineSign(dir: PoseDir): 1 | -1 {
+  return dir === 'rtl' ? 1 : -1;
+}
+
+/**
+ * Where the scale rests in the hero, based on the current viewport.
+ * Desktop: opposite the text. RTL text sits on the right, so the scale is on
+ * the left. LTR text sits on the left, so the scale is on the right.
+ */
+export function heroPose(dir: PoseDir = 'rtl'): HeroPose {
+  const s = inlineSign(dir);
   const w = window.innerWidth;
   const h = window.innerHeight;
   const halfW = Math.tan((FOV / 2) * (Math.PI / 180)) * CAM_Z * (w / h);
@@ -36,10 +55,10 @@ export function heroPose(): HeroPose {
   };
 
   if (w > 900) {
-    // Desktop: scale on the left, text on the right (RTL)
+    // Desktop: scale opposite the text (RTL: left, LTR: right)
     return {
       ...base,
-      posX: -halfW * 0.46,
+      posX: -s * halfW * 0.46,
       posY: 0,
       scale: Math.min(0.85, (halfW * 0.45) / MODEL_HALF_WIDTH),
     };
@@ -73,8 +92,9 @@ export interface SectionPoses {
   contact: HeroPose;
 }
 
-export function sectionPoses(): SectionPoses {
-  const hero = heroPose();
+export function sectionPoses(dir: PoseDir = 'rtl'): SectionPoses {
+  const s = inlineSign(dir);
+  const hero = heroPose(dir);
   const pose = (o: Partial<HeroPose>): HeroPose => ({ ...hero, ...o });
 
   if (window.innerWidth > 900) {
@@ -84,11 +104,13 @@ export function sectionPoses(): SectionPoses {
 
     return {
       hero,
-      // Text is on the left in RTL, so the scale takes the right side
+      // The text column is at the inline-start (RTL: right, LTR: left) and the
+      // empty spacer column is opposite it, so the scale takes that side
+      // (RTL: right, LTR: left).
       about: pose({
         camZ: 8.5,
         camY: 0.9,
-        posX: sideX(8.5),
+        posX: s * sideX(8.5),
         posY: 0,
         posZ: 0,
         scale: sideScale(8.5),
@@ -108,11 +130,12 @@ export function sectionPoses(): SectionPoses {
         rotX: 0.15,
         glow: 0.3,
       }),
-      // Pillars are on the right, so the scale crosses to the left
+      // The pillars take the opposite side to the about text, so the scale
+      // crosses over (RTL: left, LTR: right)
       why: pose({
         camZ: 8.5,
         camY: 0.4,
-        posX: -sideX(8.5),
+        posX: -s * sideX(8.5),
         posY: 0,
         posZ: 0,
         scale: sideScale(8.5),

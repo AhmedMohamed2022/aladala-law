@@ -11,13 +11,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { ScrollService } from '../../core/scroll.service';
-
-interface Service {
-  num: string;
-  title: string;
-  text: string;
-  icon: string[]; // SVG path data (24x24 viewBox)
-}
+import { LanguageService } from '../../core/i18n/language.service';
 
 @Component({
   selector: 'app-services',
@@ -29,42 +23,22 @@ interface Service {
 export class ServicesComponent implements AfterViewInit, OnDestroy {
   @ViewChild('root', { static: true }) rootRef!: ElementRef<HTMLElement>;
 
-  readonly services: Service[] = [
-    {
-      num: '٠١',
-      title: 'القانون التجاري وقانون الشركات',
-      text: 'تأسيس الشركات وصياغة العقود التجارية والاندماج والاستحواذ، وتقديم المشورة القانونية في كل مراحل نمو أعمالكم.',
-      icon: ['M4 21V7l8-4 8 4v14', 'M9 21v-6h6v6', 'M9 10h1', 'M14 10h1'],
-    },
-    {
-      num: '٠٢',
-      title: 'التقاضي وتسوية النزاعات',
-      text: 'تمثيل قوي أمام المحاكم وهيئات التحكيم، مع استراتيجيات مدروسة لحماية حقوقكم وتحقيق أفضل نتيجة ممكنة.',
-      icon: [
-        'm14 13-8.5 8.5a2.1 2.1 0 0 1-3-3L11 10',
-        'm16 16 6-6',
-        'm8 8 6-6',
-        'm9 7 8 8',
-        'm21 11-8-8',
-      ],
-    },
-    {
-      num: '٠٣',
-      title: 'العقارات والملكية',
-      text: 'مراجعة صفقات البيع والإيجار والتطوير العقاري، والتحقق من سلامة الملكية وحماية استثماراتكم العقارية.',
-      icon: ['M3 11l9-8 9 8', 'M5 10v10h14V10', 'M10 20v-6h4v6'],
-    },
-    {
-      num: '٠٤',
-      title: 'العقود والاستشارات القانونية',
-      text: 'صياغة ومراجعة العقود بدقة، واستشارات قانونية واضحة وعملية تساعدكم على اتخاذ قراراتكم بثقة.',
-      icon: [
-        'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z',
-        'M14 3v5h5',
-        'M9 13h6',
-        'M9 17h4',
-      ],
-    },
+  readonly icons: string[][] = [
+    ['M4 21V7l8-4 8 4v14', 'M9 21v-6h6v6', 'M9 10h1', 'M14 10h1'],
+    [
+      'm14 13-8.5 8.5a2.1 2.1 0 0 1-3-3L11 10',
+      'm16 16 6-6',
+      'm8 8 6-6',
+      'm9 7 8 8',
+      'm21 11-8-8',
+    ],
+    ['M3 11l9-8 9 8', 'M5 10v10h14V10', 'M10 20v-6h4v6'],
+    [
+      'M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z',
+      'M14 3v5h5',
+      'M9 13h6',
+      'M9 17h4',
+    ],
   ];
 
   private ctx?: gsap.Context;
@@ -74,6 +48,7 @@ export class ServicesComponent implements AfterViewInit, OnDestroy {
   constructor(
     private scroll: ScrollService,
     private zone: NgZone,
+    readonly i18n: LanguageService,
   ) {}
 
   ngAfterViewInit(): void {

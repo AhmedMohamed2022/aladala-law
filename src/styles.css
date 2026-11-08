@@ -18,6 +18,34 @@
   --container: 1200px;
   --gutter: clamp(1.25rem, 4vw, 3rem);
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ---- Direction tokens (default = RTL, flipped below for LTR) ----
+     Physical keywords that follow the page direction. Use them only where CSS
+     has no logical equivalent: gradient directions, transform-origin, and
+     positions or offsets inside gradients and keyframes. Everywhere else, use
+     logical properties (inset-inline-start, margin-inline, ...). */
+  --inline-start: right;
+  --inline-end: left;
+  --x-sign: 1; /* multiplies physical X offsets in keyframes */
+  --glow-x: 80%; /* decorative glow, near the inline-start side */
+  --hero-scale-x: 30%; /* where the 3D scale sits in the hero (fallback art) */
+
+  /* Letter-spacing breaks Arabic letter joining, so it is Latin-only */
+  --tracking: 0;
+  --tracking-wide: 0;
+}
+
+:root[dir="ltr"] {
+  --inline-start: left;
+  --inline-end: right;
+  --x-sign: -1;
+  --glow-x: 20%;
+  --hero-scale-x: 70%;
+}
+
+:root[lang="en"] {
+  --tracking: 0.05em;
+  --tracking-wide: 0.1em;
 }
 
 /* ============ Reset ============ */
@@ -67,7 +95,18 @@ ul {
   background: var(--gold-500);
   color: var(--navy-950);
 }
-
+/* Visually hidden, still read by screen readers */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 /* ============ Lenis (smooth scroll) required rules ============ */
 html.lenis,
 html.lenis body {
@@ -101,16 +140,25 @@ html.lenis body {
   color: var(--gold-400);
   font-size: 0.95rem;
   font-weight: 500;
-  letter-spacing: 0.04em;
+  letter-spacing: var(--tracking); /* was 0.04em */
   margin-bottom: 1.25rem;
 }
 .eyebrow::before {
   content: "";
   width: 2.5rem;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold-400));
+  background: linear-gradient(
+    to var(--inline-start),
+    /* was 90deg */ transparent,
+    var(--gold-400)
+  );
 }
-
+/* English eyebrows: small caps-style label with wide tracking (remove this rule to keep sentence case) */
+:root[lang="en"] .eyebrow {
+  font-size: 0.8rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
 .title {
   font-family: var(--font-display);
   font-weight: 700;

@@ -64,7 +64,7 @@
 }
 .brand-text small {
   font-size: 0.72rem;
-  letter-spacing: 0.05em;
+  letter-spacing: var(--tracking);
   color: var(--gold-400);
 }
 
@@ -90,7 +90,7 @@
   height: 1px;
   background: var(--gold-400);
   transform: scaleX(0);
-  transform-origin: right; /* grows from the right edge in RTL */
+  transform-origin: var(--inline-start) center;
   transition: transform 0.4s var(--ease-out);
 }
 .desktop-nav a:hover {
@@ -100,6 +100,11 @@
   transform: scaleX(1);
 }
 
+.bar-end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
 .cta {
   padding: 0.65rem 1.5rem;
   font-size: 0.92rem;
@@ -130,17 +135,15 @@
 
 .burger span {
   position: absolute;
-  inset-inline-start: 50%;
+  /* Centered with auto margins, so no direction-dependent translateX is needed */
+  inset-inline: 0;
+  margin-inline: auto;
   width: 1.1rem;
   height: 1.5px;
   background: currentColor;
-  transform: translateX(50%); /* centered in RTL */
   transition:
     transform 0.4s var(--ease-out),
     top 0.4s var(--ease-out);
-}
-:host-context([dir="ltr"]) .burger span {
-  transform: translateX(-50%);
 }
 .burger span:nth-child(1) {
   top: 40%;
@@ -151,11 +154,11 @@
 
 .burger.open span:nth-child(1) {
   top: 50%;
-  transform: translateX(50%) rotate(45deg);
+  transform: rotate(45deg);
 }
 .burger.open span:nth-child(2) {
   top: 50%;
-  transform: translateX(50%) rotate(-45deg);
+  transform: rotate(-45deg);
 }
 
 /* ============ Mobile panel ============ */
@@ -167,7 +170,7 @@
   place-items: center;
   background:
     radial-gradient(
-      circle at 80% 20%,
+      circle at var(--glow-x) 20%,
       rgba(201, 162, 77, 0.12),
       transparent 50%
     ),
@@ -221,6 +224,13 @@
   font-size: 0.8rem;
   color: var(--gold-500);
 }
+.panel-lang {
+  position: absolute;
+  inset-inline: 0;
+  bottom: max(2rem, env(safe-area-inset-bottom));
+  display: flex;
+  justify-content: center;
+}
 .panel-nav .panel-cta {
   margin-top: 1.5rem;
   border: 0;
@@ -230,9 +240,23 @@
 }
 
 /* ============ Responsive ============ */
+/* Narrow desktops: nav + toggle + CTA must fit on one row in both languages */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .bar {
+    gap: 1rem;
+  }
+  .desktop-nav {
+    gap: 1.4rem;
+  }
+  .cta {
+    padding: 0.6rem 1.1rem;
+    font-size: 0.88rem;
+  }
+}
+
 @media (max-width: 900px) {
   .desktop-nav,
-  .cta {
+  .bar-end {
     display: none;
   }
   .burger {

@@ -11,6 +11,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { ScrollService } from '../../core/scroll.service';
+import { LanguageService } from '../../core/i18n/language.service';
 
 @Component({
   selector: 'app-contact',
@@ -25,6 +26,7 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   // Demo details. Replace with real ones.
   readonly phone = '+20 100 000 0000';
   readonly email = 'info@aladala-law.com';
+  readonly phoneHref = 'tel:' + this.phone.replace(/\s/g, '');
 
   private ctx?: gsap.Context;
   private destroyed = false;
@@ -32,6 +34,7 @@ export class ContactComponent implements AfterViewInit, OnDestroy {
   constructor(
     private scroll: ScrollService,
     private zone: NgZone,
+    readonly i18n: LanguageService,
   ) {}
 
   ngAfterViewInit(): void {

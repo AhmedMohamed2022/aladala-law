@@ -14,6 +14,7 @@ import { gsap } from 'gsap';
 
 import { SceneStateService } from '../../core/scene-state.service';
 import { JusticeScale } from '../../three/justice-scale';
+import { LanguageService } from '../../core/i18n/language.service';
 
 @Component({
   selector: 'app-three-scene',
@@ -43,10 +44,16 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
   private tickFn?: (time: number, deltaTime: number) => void;
   private running = false;
 
+  /** +1 (RTL) / -1 (LTR), eased so a language switch swings the light instead of popping it. */
+  private lightSide = 1;
+
   constructor(
     private zone: NgZone,
     private state: SceneStateService,
-  ) {}
+    private i18n: LanguageService,
+  ) {
+    this.lightSide = this.i18n.isRtl() ? 1 : -1;
+  }
 
   ngAfterViewInit(): void {
     this.zone.runOutsideAngular(() => this.init());
@@ -169,11 +176,15 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
     const floorY = rig.posY - 2.26 * rig.scale; // bottom of the plinth
     this.shadowPlane!.position.set(g.x, floorY, g.z);
 
-    this.keyLight!.position.set(g.x + 4, rig.posY + 8, g.z + 5);
+    const sideTarget = this.i18n.isRtl() ? 1 : -1;
+    this.lightSide +=
+      (sideTarget - this.lightSide) * (1 - Math.exp(-delta * 6));
+    const side = this.lightSide;
+    this.keyLight!.position.set(g.x + 4 * side, rig.posY + 8, g.z + 5);
     this.keyLight!.target.position.set(g.x, rig.posY, g.z);
     this.keyLight!.intensity = 2.2 * (0.6 + 0.4 * rig.glow);
 
-    this.rimLight!.position.set(g.x - 3, rig.posY + 3, g.z - 4);
+    this.rimLight!.position.set(g.x - 3 * side, rig.posY + 3, g.z - 4);
     this.rimLight!.intensity = 40 * rig.glow;
 
     this.renderer.render(this.scene, this.camera);

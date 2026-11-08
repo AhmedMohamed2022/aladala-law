@@ -152,9 +152,13 @@
   inset-inline: 0;
   bottom: 0;
   height: 2px;
-  background: linear-gradient(to left, var(--gold-300), var(--gold-600));
+  background: linear-gradient(
+    to var(--inline-end),
+    var(--gold-300),
+    var(--gold-600)
+  );
   transform: scaleX(0);
-  transform-origin: right center;
+  transform-origin: var(--inline-start) center;
   transition: transform 0.6s var(--ease-out);
 }
 .card:hover .line {

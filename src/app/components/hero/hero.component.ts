@@ -12,6 +12,7 @@ import { gsap } from 'gsap';
 import { ScrollService } from '../../core/scroll.service';
 import { SceneStateService } from '../../core/scene-state.service';
 import { heroPose } from '../../three/poses';
+import { LanguageService } from '../../core/i18n/language.service';
 
 @Component({
   selector: 'app-hero',
@@ -30,6 +31,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
     private scroll: ScrollService,
     private state: SceneStateService,
     private zone: NgZone,
+    readonly i18n: LanguageService,
   ) {}
 
   ngAfterViewInit(): void {
@@ -47,8 +49,7 @@ export class HeroComponent implements AfterViewInit, OnDestroy {
 
   private playEntrance(): void {
     const rig = this.state.rig;
-    const pose = heroPose();
-
+    const pose = heroPose(this.i18n.dir());
     // Reduced motion: place the scale and show everything, no animation
     if (this.scroll.reducedMotion) {
       Object.assign(rig, pose);

@@ -19,7 +19,7 @@
   inset: 0;
   pointer-events: none;
   background: linear-gradient(
-    to left,
+    to var(--inline-end),
     rgba(6, 11, 20, 0.88) 0%,
     rgba(6, 11, 20, 0.55) 40%,
     transparent 70%
@@ -39,7 +39,20 @@
   line-height: 1.35;
   margin-bottom: 1.75rem;
 }
-
+/* English: Cormorant is narrower and has a smaller x-height than the Arabic display face,
+   so the headline gets its own size, tighter leading and a wider text column */
+:host-context([lang="en"]) .content {
+  max-width: 40rem;
+}
+:host-context([lang="en"]) .headline {
+  font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+  line-height: 1.2;
+}
+:host-context([lang="en"]) .line {
+  /* a little more room for descenders (g, y) inside the reveal mask */
+  padding-block: 0.16em;
+  margin-block: -0.16em;
+}
 /* Mask for the line-reveal. Padding keeps Arabic ascenders/descenders from being clipped */
 .line {
   display: block;
@@ -71,7 +84,7 @@
   align-items: center;
   gap: 0.75rem;
   font-size: 0.75rem;
-  letter-spacing: 0.08em;
+  letter-spacing: var(--tracking-wide);
   color: var(--ivory-dim);
 }
 .scroll-cue i {

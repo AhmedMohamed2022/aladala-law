@@ -6,16 +6,19 @@ import {
   NgZone,
   OnDestroy,
   ViewChild,
+  effect,
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { ScrollService } from '../../core/scroll.service';
+import { LanguageService } from '../../core/i18n/language.service';
 
 interface Stat {
+  /** Key into the dictionary: i18n.t().about.stats[key] */
+  key: 'years' | 'cases' | 'satisfaction';
   value: number;
   suffix: string;
-  label: string;
 }
 
 @Component({
@@ -30,18 +33,18 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
 
   // Demo figures. Replace with real ones.
   readonly stats: Stat[] = [
-    { value: 15, suffix: '+', label: 'سنة من الخبرة' },
-    { value: 500, suffix: '+', label: 'قضية ناجحة' },
-    { value: 98, suffix: '%', label: 'رضا العملاء' },
+    { key: 'years', value: 15, suffix: '+' },
+    { key: 'cases', value: 500, suffix: '+' },
+    { key: 'satisfaction', value: 98, suffix: '%' },
   ];
 
-  /** Arabic-Indic digits: ١٢٣ */
-  private readonly nf = new Intl.NumberFormat('ar-EG');
-
-  /** Initial text rendered by the template (final value, so it is correct without animation) */
-  format(n: number): string {
-    return this.nf.format(n);
-  }
+  /**
+   * The number each counter currently shows (final value, or the in-progress value).
+   * The counters' text is owned by this component, not by an Angular binding:
+   * GSAP replaces the text node, which would silently break a binding.
+   */
+  private shown: number[];
+  private viewReady = false;
 
   private ctx?: gsap.Context;
   private destroyed = false;
@@ -49,9 +52,36 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
   constructor(
     private scroll: ScrollService,
     private zone: NgZone,
-  ) {}
+    readonly i18n: LanguageService,
+  ) {
+    // Motion on: counters start at 0 and count up. Reduced motion: final values.
+    this.shown = this.stats.map((s) =>
+      this.scroll.reducedMotion ? s.value : 0,
+    );
+
+    // Language switch: re-render the counters with the new digits, keeping their current value
+    effect(() => {
+      this.i18n.lang(); // dependency
+      if (this.viewReady) this.renderCounters();
+    });
+  }
+
+  private counterEls(): HTMLElement[] {
+    return Array.from(
+      this.rootRef.nativeElement.querySelectorAll<HTMLElement>('.num'),
+    );
+  }
+
+  private renderCounters(): void {
+    this.counterEls().forEach((el, i) => {
+      el.textContent = this.i18n.n(this.shown[i]);
+    });
+  }
 
   ngAfterViewInit(): void {
+    this.viewReady = true;
+    this.renderCounters();
+
     if (this.scroll.reducedMotion) return; // static content, final values already shown
 
     this.zone.runOutsideAngular(() => {
@@ -105,19 +135,19 @@ export class AboutComponent implements AfterViewInit, OnDestroy {
           '-=0.7',
         );
 
-        q('.num').forEach((el) => {
-          const target = Number((el as HTMLElement).dataset['value']);
+        this.counterEls().forEach((el, i) => {
           const counter = { v: 0 };
-          el.textContent = this.nf.format(0);
 
           tl.to(
             counter,
             {
-              v: target,
+              v: this.stats[i].value,
               duration: 2.2,
               ease: 'power2.out',
               onUpdate: () => {
-                el.textContent = this.nf.format(Math.round(counter.v));
+                this.shown[i] = Math.round(counter.v);
+                // i18n.n() reads the CURRENT language, so a switch mid-count just continues
+                el.textContent = this.i18n.n(this.shown[i]);
               },
             },
             '<0.1', // all counters start together

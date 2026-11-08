@@ -11,15 +11,21 @@ import {
 } from '@angular/core';
 import { gsap } from 'gsap';
 import { ScrollService } from '../../core/scroll.service';
+import { LanguageService } from '../../core/i18n/language.service';
+import { LanguageTransitionService } from '../../core/i18n/language-transition.service';
+import { LangToggleComponent } from '../lang-toggle/lang-toggle.component';
 
 interface NavLink {
-  label: string;
+  /** Key into the dictionary: i18n.t().nav[key] */
+  key: 'about' | 'services' | 'why' | 'contact';
   target: string;
 }
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
+  imports: [LangToggleComponent],
+
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,10 +36,10 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   readonly menuOpen = signal(false);
 
   readonly links: NavLink[] = [
-    { label: 'من نحن', target: '#about' },
-    { label: 'خدماتنا', target: '#services' },
-    { label: 'لماذا نحن', target: '#why' },
-    { label: 'تواصل معنا', target: '#contact' },
+    { key: 'about', target: '#about' },
+    { key: 'services', target: '#services' },
+    { key: 'why', target: '#why' },
+    { key: 'contact', target: '#contact' },
   ];
 
   private ctx?: gsap.Context;
@@ -41,6 +47,8 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   constructor(
     private scroll: ScrollService,
     private zone: NgZone,
+    readonly i18n: LanguageService,
+    readonly transition: LanguageTransitionService,
   ) {}
 
   ngAfterViewInit(): void {

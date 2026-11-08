@@ -1,0 +1,56 @@
+/* Plain colors and logical properties only, so it looks right in both directions */
+:host {
+  display: inline-flex;
+}
+
+.lang-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem; /* 44px touch target */
+  padding-inline: 1rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--gold-400);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1;
+  transition:
+    border-color 0.3s var(--ease-out),
+    background 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+
+.lang-btn:hover {
+  border-color: var(--gold-400);
+  background: rgba(201, 162, 77, 0.08);
+  color: var(--gold-300);
+}
+
+.lang-btn:focus-visible {
+  outline: 2px solid var(--gold-300);
+  outline-offset: 3px;
+}
+
+.lang-btn svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  flex-shrink: 0;
+}
+
+/* Tracking only for the Latin label: letter-spacing would break Arabic letter joining */
+.lang-label[lang="en"] {
+  letter-spacing: 0.1em;
+}
+
+/* Narrow desktops: drop the globe icon to save space */
+@media (min-width: 901px) and (max-width: 1100px) {
+  .lang-btn {
+    padding-inline: 0.85rem;
+  }
+  .lang-btn svg {
+    display: none;
+  }
+}

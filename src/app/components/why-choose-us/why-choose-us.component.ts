@@ -11,12 +11,7 @@ import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { ScrollService } from '../../core/scroll.service';
-
-interface Pillar {
-  num: string;
-  title: string;
-  text: string;
-}
+import { LanguageService } from '../../core/i18n/language.service';
 
 @Component({
   selector: 'app-why-choose-us',
@@ -28,35 +23,13 @@ interface Pillar {
 export class WhyChooseUsComponent implements AfterViewInit, OnDestroy {
   @ViewChild('root', { static: true }) rootRef!: ElementRef<HTMLElement>;
 
-  readonly pillars: Pillar[] = [
-    {
-      num: '٠١',
-      title: 'خبرة مهنية راسخة',
-      text: 'فريق من المحامين المتخصصين بسجل حافل في القضايا التجارية والمدنية، يجمع بين المعرفة النظرية والخبرة العملية أمام المحاكم.',
-    },
-    {
-      num: '٠٢',
-      title: 'حلول تتمحور حول العميل',
-      text: 'نصغي أولاً، ثم نصمم الخطة القانونية التي تناسب أهدافكم وظروفكم، ونبقيكم على اطلاع في كل مرحلة دون تعقيد.',
-    },
-    {
-      num: '٠٣',
-      title: 'سرّية وثقة تامة',
-      text: 'خصوصيتكم أولوية مطلقة. نلتزم بأعلى معايير السرّية المهنية في التعامل مع كل معلومة ومستند وتفصيل يخص قضيتكم.',
-    },
-    {
-      num: '٠٤',
-      title: 'تمثيل قانوني استراتيجي',
-      text: 'نقرأ القضية من كل زواياها، ونبني استراتيجية مدروسة تحمي مصالحكم على المدى القريب والبعيد.',
-    },
-  ];
-
   private ctx?: gsap.Context;
   private destroyed = false;
 
   constructor(
     private scroll: ScrollService,
     private zone: NgZone,
+    readonly i18n: LanguageService,
   ) {}
 
   ngAfterViewInit(): void {

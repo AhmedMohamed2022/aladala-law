@@ -25,7 +25,7 @@ canvas.hidden {
   display: grid;
   place-items: center;
   background: radial-gradient(
-    circle at 30% 50%,
+    circle at var(--hero-scale-x) 50%,
     rgba(201, 162, 77, 0.14),
     transparent 55%
   );
