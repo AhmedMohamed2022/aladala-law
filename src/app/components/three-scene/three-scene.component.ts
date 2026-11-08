@@ -166,7 +166,7 @@ export class ThreeSceneComponent implements AfterViewInit, OnDestroy {
     const rig = this.state.rig;
 
     this.justiceScale.update(delta, time, this.state.mouse, rig);
-
+    this.justiceScale.group.position.x += rig.posXShift;
     // Camera follows the rig (animated by ScrollTrigger in Step 11)
     this.camera.position.set(0, rig.camY, rig.camZ);
     this.camera.lookAt(rig.camLookX, 0, 0);

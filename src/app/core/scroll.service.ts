@@ -59,6 +59,26 @@ export class ScrollService implements OnDestroy {
     }
   }
 
+  /** Current scroll position in px (the same value ScrollTrigger sees). */
+  getScroll(): number {
+    return this.lenis ? this.lenis.scroll : window.scrollY;
+  }
+
+  /**
+   * Jump to a position with no animation. Also works while scrolling is
+   * stopped (mobile menu open). Re-measures the page first, because Lenis
+   * only learns about a new page height after a 250ms debounce, and would
+   * otherwise clamp the jump to the OLD height.
+   */
+  scrollToImmediate(y: number): void {
+    if (this.lenis) {
+      this.lenis.resize();
+      this.lenis.scrollTo(y, { immediate: true, force: true });
+    } else {
+      window.scrollTo({ top: y, behavior: 'instant' });
+    }
+  }
+
   /** Pause scrolling (e.g. while the mobile menu is open). */
   stop(): void {
     this.lenis?.stop();

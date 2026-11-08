@@ -1,4 +1,4 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core';
+import { Injectable, NgZone, OnDestroy, isDevMode } from '@angular/core';
 
 /**
  * The "rig" is what ScrollTrigger animates and Three.js reads.
@@ -6,6 +6,13 @@ import { Injectable, NgZone, OnDestroy } from '@angular/core';
  */
 export interface SceneRig {
   posX: number; // scale position (world units)
+  /**
+   * Added to posX when drawing. Normally 0. After a language switch the scale
+   * has to move to the mirrored side: this holds the distance still to cover
+   * and eases back to 0, while posX itself already follows the scroll timeline.
+   * Keeping it separate means scrolling and the glide never fight over posX.
+   */
+  posXShift: number;
   posY: number;
   posZ: number;
   rotY: number; // base rotation from scroll (radians)
@@ -37,6 +44,7 @@ export class SceneStateService implements OnDestroy {
   /** Starting values for the hero. Step 11 animates these across sections. */
   readonly rig: SceneRig = {
     posX: 0,
+    posXShift: 0,
     posY: 0,
     posZ: 0,
     rotY: 0,
@@ -50,7 +58,12 @@ export class SceneStateService implements OnDestroy {
 
   private listening = false;
 
-  constructor(private zone: NgZone) {}
+  constructor(private zone: NgZone) {
+    if (isDevMode()) {
+      // Dev helper: __rig in the browser console shows the live 3D pose
+      (window as unknown as { __rig?: SceneRig }).__rig = this.rig;
+    }
+  }
 
   /** Start tracking the pointer. Called by ThreeSceneComponent. */
   startPointerTracking(): void {
