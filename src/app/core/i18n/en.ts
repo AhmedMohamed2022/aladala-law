@@ -125,7 +125,7 @@ export const EN: Dictionary = {
 
   footer: {
     rights: 'Al Adala Law Firm. All rights reserved.',
-    note: 'A demo site showcasing 3D animation techniques.',
+    note: 'We are committed to protecting your privacy. Any information you provide will be handled in accordance with our privacy policy.',
   },
 
   aria: {
