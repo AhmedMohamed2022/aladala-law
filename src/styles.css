@@ -12,7 +12,7 @@
   --ivory-dim: rgba(244, 239, 230, 0.68);
   --line: rgba(201, 162, 77, 0.22);
 
-  --font-display: "Cormorant Garamond", "El Messiri", "Times New Roman", serif;
+  --font-display: "El Messiri", "Times New Roman", serif;
   --font-body: "Tajawal", "Segoe UI", Tahoma, sans-serif;
 
   --container: 1200px;
@@ -46,6 +46,13 @@
 :root[lang="en"] {
   --tracking: 0.05em;
   --tracking-wide: 0.1em;
+  --font-display: "Playfair Display", "El Messiri", "Times New Roman", serif;
+  --font-body: "Manrope", "Tajawal", "Segoe UI", sans-serif;
+  /* Playfair's default numerals are old-style (uneven heights): force lining */
+  font-variant-numeric: lining-nums;
+}
+:root[lang="en"] body {
+  line-height: 1.7;
 }
 
 /* ============ Reset ============ */
@@ -166,7 +173,10 @@ html.lenis body {
   line-height: 1.25;
   color: var(--ivory);
 }
-
+:root[lang="en"] .title {
+  font-size: clamp(2rem, 4.6vw, 3.5rem);
+  line-height: 1.2;
+}
 .gold-text {
   background: linear-gradient(
     120deg,

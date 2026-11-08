@@ -93,6 +93,7 @@
   background-clip: text;
   color: transparent;
 }
+:host-context([lang="en"]) .stat strong { font-size: clamp(2rem, 3.7vw, 2.95rem); }
 .stat .label {
   font-size: 0.92rem;
   color: var(--ivory-dim);

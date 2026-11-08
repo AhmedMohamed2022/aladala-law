@@ -15,13 +15,14 @@ import type { Lang } from './i18n/language.service';
  */
 const FACES: Record<Lang, ReadonlyArray<readonly [string, string]>> = {
   en: [
-    ['500 1em "Cormorant Garamond"', 'Aa'],
-    ['600 1em "Cormorant Garamond"', 'Aa'],
-    ['700 1em "Cormorant Garamond"', 'Aa'],
-    ['300 1em Tajawal', 'Aa'],
-    ['400 1em Tajawal', 'Aa'],
-    ['500 1em Tajawal', 'Aa'],
-    ['700 1em Tajawal', 'Aa'],
+    ['500 1em "Playfair Display"', 'Aa'],
+    ['600 1em "Playfair Display"', 'Aa'],
+    ['700 1em "Playfair Display"', 'Aa'],
+    ['300 1em Manrope', 'Aa'],
+    ['400 1em Manrope', 'Aa'],
+    ['500 1em Manrope', 'Aa'],
+    ['600 1em Manrope', 'Aa'],
+    ['700 1em Manrope', 'Aa'],
   ],
   ar: [
     ['400 1em "El Messiri"', 'ع'],

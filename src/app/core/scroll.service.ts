@@ -55,7 +55,12 @@ export class ScrollService implements OnDestroy {
     if (this.lenis) {
       this.lenis.scrollTo(el, { offset, duration: 1.4 });
     } else {
-      el.scrollIntoView({ behavior: this.reducedMotion ? 'auto' : 'smooth' });
+      // Native fallback (reduced motion): same offset as the Lenis path
+      const top = el.getBoundingClientRect().top + window.scrollY + offset;
+      window.scrollTo({
+        top: Math.max(0, top),
+        behavior: this.reducedMotion ? 'auto' : 'smooth',
+      });
     }
   }
 

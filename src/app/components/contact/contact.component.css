@@ -172,6 +172,7 @@
   font-size: clamp(2.4rem, 6vw, 4.6rem);
   margin-bottom: 1.5rem;
 }
+:host-context([lang="en"]) .title { font-size: clamp(2.2rem, 5.6vw, 4.2rem); }
 .lead {
   margin-bottom: 2.75rem;
 }

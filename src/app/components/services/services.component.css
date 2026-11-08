@@ -139,6 +139,7 @@
   color: var(--ivory);
   transform: translateZ(20px);
 }
+:host-context([lang="en"]) .card h3 { font-size: 1.35rem; line-height: 1.35; }
 
 .card p {
   font-size: 0.95rem;

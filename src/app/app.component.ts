@@ -83,6 +83,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private resizeTimer?: number;
   private fontsTimer?: number;
   private lastWidth = 0;
+  private lastHeight = 0;
 
   /** The scroll triggers behind the current build, kept so the rig can be set straight from them. */
   private poseSteps: PoseStep[] = []; // scrubbed: hero->about, about->services, ... (in order)
@@ -167,7 +168,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
     // Re-measures every trigger: this build's AND the components' reveal triggers
     ScrollTrigger.refresh();
-
+    this.lastHeight = document.documentElement.scrollHeight;
     if (mode !== 'initial') {
       // A rebuild must not replay the journey from the hero, nor teleport the
       // scale: put the rig exactly where the NEW timeline has it at this scroll
@@ -458,7 +459,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
   private onFontsLoaded = (): void => {
     window.clearTimeout(this.fontsTimer);
     this.fontsTimer = window.setTimeout(() => {
-      if (!this.destroyed && this.introFinished) ScrollTrigger.refresh();
+      if (this.destroyed || !this.introFinished) return;
+      const h = document.documentElement.scrollHeight;
+      if (Math.abs(h - this.lastHeight) < 2) return;
+      this.lastHeight = h;
+      ScrollTrigger.refresh();
     }, 150);
   };
 

@@ -45,7 +45,7 @@
   max-width: 40rem;
 }
 :host-context([lang="en"]) .headline {
-  font-size: clamp(2.6rem, 5.6vw, 4.6rem);
+  font-size: clamp(2.1rem, 9.5vw, 4.5rem);
   line-height: 1.2;
 }
 :host-context([lang="en"]) .line {

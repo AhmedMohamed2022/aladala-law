@@ -43,6 +43,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
   ];
 
   private ctx?: gsap.Context;
+  private goTimer?: number;
 
   constructor(
     private scroll: ScrollService,
@@ -84,7 +85,8 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
     this.closeMenu();
     // Small delay so the menu starts closing and Lenis is running again
-    setTimeout(() => this.scroll.scrollTo(target), 50);
+    window.clearTimeout(this.goTimer);
+    this.goTimer = window.setTimeout(() => this.scroll.scrollTo(target), 50);
   }
 
   toggleMenu(): void {
@@ -115,6 +117,7 @@ export class NavbarComponent implements AfterViewInit, OnDestroy {
 
   ngOnDestroy(): void {
     window.removeEventListener('scroll', this.onScroll);
+    window.clearTimeout(this.goTimer);
     this.ctx?.revert();
     if (this.menuOpen()) this.scroll.start();
   }
